@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { DndContext, closestCenter } from '@dnd-kit/core'
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import List from './List'
 
 const initialData = {
@@ -32,6 +32,12 @@ const initialData = {
 function Board() {
   const [data, setData] = useState(initialData)
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 }
+    })
+  )
+
   function onDragEnd(event) {
     const { active, over } = event
     if (!over) return
@@ -43,22 +49,23 @@ function Board() {
     let destListId = null
     let movedCard = null
 
-    const newLists = data.lists.map(list => {
+    data.lists.forEach(list => {
       const cardIndex = list.cards.findIndex(c => c.id === activeId)
       if (cardIndex !== -1) {
         sourceListId = list.id
         movedCard = list.cards[cardIndex]
       }
-      return list
     })
 
     data.lists.forEach(list => {
+      if (list.id === overId) destListId = list.id
       const found = list.cards.find(c => c.id === overId)
       if (found) destListId = list.id
-      if (list.id === overId) destListId = list.id
     })
 
-    if (!destListId || sourceListId === destListId) return
+    if (!destListId || !movedCard) return
+
+    if (sourceListId === destListId) return
 
     const updatedLists = data.lists.map(list => {
       if (list.id === sourceListId) {
@@ -105,7 +112,7 @@ function Board() {
   }
 
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
       <div style={{
         padding: '20px',
         display: 'flex',

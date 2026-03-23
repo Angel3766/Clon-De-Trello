@@ -60,81 +60,83 @@ function List({ list, onAddCard, onAddComment, onAssignUser }) {
   }
 
   return (
-    <div style={{
-      background: 'rgba(255,255,255,0.1)',
-      backdropFilter: 'blur(10px)',
-      borderRadius: '12px',
-      padding: '12px',
-      width: '270px',
-      minWidth: '270px',
-      maxHeight: '80vh',
-      overflowY: 'auto',
-      border: '1px solid rgba(255,255,255,0.2)'
-    }}>
-      <h3 style={{
-        marginBottom: '12px',
-        fontSize: '16px',
-        color: 'white',
-        fontWeight: 'bold'
+    <>
+      <div style={{
+        background: 'rgba(255,255,255,0.1)',
+        backdropFilter: 'blur(10px)',
+        borderRadius: '12px',
+        padding: '12px',
+        width: '270px',
+        minWidth: '270px',
+        maxHeight: '80vh',
+        overflowY: 'auto',
+        border: '1px solid rgba(255,255,255,0.2)'
       }}>
-        {list.title}
-      </h3>
-
-      <SortableContext items={list.cards.map(c => c.id)} strategy={verticalListSortingStrategy}>
-        <div ref={setNodeRef}>
-          {list.cards.map((card) => (
-            <Card
-              key={card.id}
-              card={card}
-              onClick={() => setSelectedCard(card)}
-            />
-          ))}
-        </div>
-      </SortableContext>
-
-      {adding ? (
-        <div style={{ marginTop: '8px' }}>
-          <input
-            autoFocus
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            placeholder="Título de la tarjeta"
-            style={{
-              width: '100%', padding: '8px',
-              borderRadius: '6px', border: 'none',
-              marginBottom: '6px', fontSize: '14px',
-              outline: 'none'
-            }}
-          />
-          <button onClick={handleAdd} style={{
-            backgroundColor: '#0079bf', color: 'white',
-            border: 'none', borderRadius: '6px',
-            padding: '6px 12px', cursor: 'pointer',
-            marginRight: '6px', fontSize: '13px'
-          }}>
-            Agregar
-          </button>
-          <button onClick={() => setAdding(false)} style={{
-            background: 'none', border: 'none',
-            cursor: 'pointer', fontSize: '16px', color: 'white'
-          }}>✕</button>
-        </div>
-      ) : (
-        <button onClick={() => setAdding(true)} style={{
-          background: 'rgba(255,255,255,0.1)',
-          border: '1px dashed rgba(255,255,255,0.3)',
-          cursor: 'pointer',
-          color: 'rgba(255,255,255,0.7)',
-          padding: '8px',
-          width: '100%',
-          textAlign: 'left',
-          borderRadius: '8px',
-          marginTop: '4px',
-          fontSize: '13px'
+        <h3 style={{
+          marginBottom: '12px',
+          fontSize: '16px',
+          color: 'white',
+          fontWeight: 'bold'
         }}>
-          + Agregar tarjeta
-        </button>
-      )}
+          {list.title}
+        </h3>
+
+        <SortableContext items={list.cards.map(c => c.id)} strategy={verticalListSortingStrategy}>
+          <div ref={setNodeRef}>
+            {list.cards.map((card) => (
+              <Card
+                key={card.id}
+                card={card}
+                onClick={() => setSelectedCard(card)}
+              />
+            ))}
+          </div>
+        </SortableContext>
+
+        {adding ? (
+          <div style={{ marginTop: '8px' }}>
+            <input
+              autoFocus
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              placeholder="Título de la tarjeta"
+              style={{
+                width: '100%', padding: '8px',
+                borderRadius: '6px', border: 'none',
+                marginBottom: '6px', fontSize: '14px',
+                outline: 'none'
+              }}
+            />
+            <button onClick={handleAdd} style={{
+              backgroundColor: '#0079bf', color: 'white',
+              border: 'none', borderRadius: '6px',
+              padding: '6px 12px', cursor: 'pointer',
+              marginRight: '6px', fontSize: '13px'
+            }}>
+              Agregar
+            </button>
+            <button onClick={() => setAdding(false)} style={{
+              background: 'none', border: 'none',
+              cursor: 'pointer', fontSize: '16px', color: 'white'
+            }}>✕</button>
+          </div>
+        ) : (
+          <button onClick={() => setAdding(true)} style={{
+            background: 'rgba(255,255,255,0.1)',
+            border: '1px dashed rgba(255,255,255,0.3)',
+            cursor: 'pointer',
+            color: 'rgba(255,255,255,0.7)',
+            padding: '8px',
+            width: '100%',
+            textAlign: 'left',
+            borderRadius: '8px',
+            marginTop: '4px',
+            fontSize: '13px'
+          }}>
+            + Agregar tarjeta
+          </button>
+        )}
+      </div>
 
       {selectedCard && (
         <CardModal
@@ -150,7 +152,7 @@ function List({ list, onAddCard, onAddComment, onAssignUser }) {
           }}
         />
       )}
-    </div>
+    </>
   )
 }
 
