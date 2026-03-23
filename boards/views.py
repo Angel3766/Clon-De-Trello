@@ -1,3 +1,4 @@
+# Vistas API para manejo de datos
 from rest_framework import viewsets
 from .models import Board, List, Card, Comment
 from .serializers import *
