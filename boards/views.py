@@ -18,3 +18,12 @@ class CardViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+def get_queryset(self):
+    queryset = super().get_queryset()
+    list_id = self.request.query_params.get('list')
+
+    if list_id:
+        queryset = queryset.filter(list_id=list_id)
+
+    return queryset
