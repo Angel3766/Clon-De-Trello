@@ -90,8 +90,9 @@ function Board() {
     try {
       const res = await API.post('/cards/', {
         title,
-        description: '',
+        description: ' ',
         list: parseInt(listId),
+        assigned_to: null,
         position: 0
       })
       const newCard = {
@@ -105,7 +106,7 @@ function Board() {
       })
       setData({ lists: newLists })
     } catch (error) {
-      console.error('Error creando tarjeta:', error)
+      console.error('Error creando tarjeta:', error.response?.data)
     }
   }
 
@@ -125,7 +126,7 @@ function Board() {
       }))
       setData({ lists: newLists })
     } catch (error) {
-      console.error('Error agregando comentario:', error)
+      console.error('Error agregando comentario:', error.response?.data)
     }
   }
 
@@ -141,7 +142,7 @@ function Board() {
       }))
       setData({ lists: newLists })
     } catch (error) {
-      console.error('Error asignando usuario:', error)
+      console.error('Error asignando usuario:', error.response?.data)
     }
   }
 
