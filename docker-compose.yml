@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: trello_clone
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: agosto2004
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    command: sh -c "npm install && npm run dev -- --host"
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000/api
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
